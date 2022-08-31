@@ -1,0 +1,16 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+<h1 class="h5">Escolha uma enquete:</h1>
+
+    {% if latest_question_list %}
+        <ol>
+        {% for question in latest_question_list %}
+            <li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li>
+        {% endfor %}
+        </ol>
+    {% else %}
+        <p>Sem enquetes disponíveis.</p>
+    {% endif %}
+
+{% endblock %}

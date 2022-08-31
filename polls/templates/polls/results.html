@@ -1,0 +1,72 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+
+<h1>{{ question.question_text }}</h1>
+
+<!-- 
+
+<ul>
+{% for choice in question.choice_set.all %}
+    <li>{{ choice.choice_text }} ({{ choice.votes }} voto{{ choice.votes|pluralize }})</li>
+{% endfor %}
+</ul>
+ -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="row">
+    <div class="col-6 mx-auto">
+        <h2 class="">Resultado</h2>
+        <canvas id="myChart"></canvas>
+        <a href="{% url 'detail' question.id %}" class="link-success text-bold">Votar novamente?</a>
+    </div>
+</div>
+
+
+
+<script>
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [{% for choice in question.choice_set.all %}'{{ choice.choice_text }}', {% endfor %}],
+        datasets: [{
+            label: 'Núm. de Votos',
+            data: [{% for choice in question.choice_set.all %}{{ choice.votes }}, {% endfor %}],
+            backgroundColor: [
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true                
+            }
+        }
+    }
+});
+</script>
+
+
+
+
+
+
+{% endblock %}

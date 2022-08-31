@@ -1,0 +1,38 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+<form class="col-4"  action="{% url 'vote' question.id %}" method="post">
+    {% csrf_token %}
+    <div class="card">
+        <div class="card-header">
+            <h1 class="h4 mb-0">{{ question.question_text }}</h1>
+        </div>
+    <fieldset>
+        <div class="list-group list-group-flush">    
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% for choice in question.choice_set.all %}
+        <p class="list-group-item py-1 mb-1">
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+        </p>
+        {% endfor %}
+        </div>
+    </fieldset>
+    <div class="card-footer bg-white">
+        <input class="btn btn-primary" type="submit" value="Votar">
+    </div>
+    
+</form>
+
+
+
+    
+      
+      
+
+
+</div>
+
+{% endblock %}
+
+
